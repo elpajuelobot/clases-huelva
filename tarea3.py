@@ -23,7 +23,7 @@ def other_buttons():
     # Crear un mensaje emergente
     msg = QMessageBox()
     msg.setWindowTitle("incorrecto")
-    msg.setText("No, fue en el 2015. Ganaste un póster de la empresa.")
+    msg.setText("No, fue en el 2005. Ganaste un póster de la empresa.")
     msg.setIcon(QMessageBox.Information)
     msg.setStandardButtons(QMessageBox.Ok)  # Botón para cerrar el mensaje
     msg.exec_()  # Mostrar el mensaje
