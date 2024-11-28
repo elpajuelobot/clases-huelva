@@ -6,7 +6,7 @@ app = QApplication([])
 # Ventana principal:
 mainwin = QWidget()
 mainwin.resize(400, 200)
-mainwin.windowTitle("Memory Card")
+mainwin.setWindowTitle("Memory Card")
 
 #######################################
 
