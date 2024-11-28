@@ -53,4 +53,3 @@ mainwin.setLayout(main_layout)
 # Mostramos ventana principal
 mainwin.show()
 app.exec_()
-# Mantiene app encendida
