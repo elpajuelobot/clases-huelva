@@ -1,6 +1,5 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QLabel, QVBoxLayout, QHBoxLayout, QGroupBox, QLineEdit, QRadioButton
-
 # App
 app = QApplication([])
 # Ventana principal:
@@ -19,6 +18,17 @@ mainwin3.resize(965, 476)
 mainwin3.setWindowTitle("registrarse")
 
 #######################################
+
+# Funciones
+# Iniciar sesión
+def login():
+    with open(
+        "registros.txt", "r", encoding="utf-8"
+    ) as logins:
+        data = logins.read()
+
+
+
 
 ''' VENTANA PRINCIPAL '''
 # Texto
@@ -40,7 +50,7 @@ def registrarte():
 
 # Botones radio
 rbtn_1 = QPushButton('Regístrate')
-rbtn_2 = QPushButton ('Inicia sesión')
+rbtn_2 = QPushButton('Inicia sesión')
 
 rbtn_2.clicked.connect(iniciar_sesion)
 rbtn_1.clicked.connect(registrarte)
@@ -106,6 +116,56 @@ layout.addWidget(submit_button)
 # Configurar layout y mostrar ventana
 mainwin2.setLayout(layout)
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+def registrer():
+    with open(
+        "registros.txt", "a", encoding="utf-8"
+    ) as registrers:
+        data2 = registrers.write()
+
 ''' VENTANA DE REGISTRO '''
 # Función para procesar la entrada
 def cerrar_ventana():
@@ -115,6 +175,7 @@ def cerrar_ventana():
 # Función para procesar la entrada
 def process_input():
     password2 = password.text()
+    user2 = user.text()
     output_label.setText(f"Contraseña ingresada: {password2}")
 
 
@@ -132,6 +193,9 @@ password = QLineEdit()
 password.setEchoMode(QLineEdit.Password)  # Oculta el texto ingresado
 password.setPlaceholderText("Escribe tu contraseña...")
 layout.addWidget(password)
+
+# Verificar si el nombre que se ha escrito está en la lista o no
+#if user2 in 
 
 # Botón para procesar entrada
 submit_button2 = QPushButton("Ver contraseña")
@@ -155,6 +219,77 @@ layout.addWidget(submit_button)
 
 # Configurar layout y mostrar ventana
 mainwin3.setLayout(layout)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #######################################
 
