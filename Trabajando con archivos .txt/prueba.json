@@ -1,0 +1,17 @@
+{
+    "familia": [
+        {
+            "name":"Luis",
+            "age":"8",
+            "familiar":"Hermano"
+        },
+        {
+            "name":"Cinta",
+            "age":"45",
+            "familiar":"Madre",
+            "oficios": [
+                "ama de casa", "trabajadora de Mercadona"
+            ]
+        }
+    ]
+}

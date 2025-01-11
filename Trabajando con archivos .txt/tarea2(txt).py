@@ -1,6 +1,6 @@
-from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QLabel, QVBoxLayout, QHBoxLayout, QTextEdit, QListWidget, QLineEdit
-from pyautogui import size
+# From PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import (QApplication, QWidget, QPushButton, QVBoxLayout,
+                        QHBoxLayout, QTextEdit, QListWidget, QLineEdit, QLabel)
 
 # App
 app = QApplication([])
@@ -24,14 +24,13 @@ createButton = QPushButton("Crear nota")
 deletButton = QPushButton("eliminar nota")
 saveButton = QPushButton("guardar nota")
 
-
 # Etiquetas
 # Lista de etiquetas
-label_list = QListWidget() 
+label_list = QListWidget()
 
 # Entrada de texto
-user = QLineEdit()
-user.setPlaceholderText("Nombre de usuario")
+tag = QLineEdit()
+tag.setPlaceholderText("Introducir etiqueta...")
 
 # Botones
 label_list_text = QLabel("Lista de etiquetas")
@@ -63,6 +62,7 @@ colum2.addWidget(saveButton)
 # Etiqueta
 colum2.addWidget(label_list_text)
 colum2.addWidget(label_list)
+colum2.addWidget(tag)
 fila1.addLayout(colum2)
 
 # Botones de etiquetas
