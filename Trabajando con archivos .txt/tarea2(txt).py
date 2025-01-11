@@ -1,5 +1,6 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QLabel, QVBoxLayout, QHBoxLayout, QTextEdit, QListWidget, QLineEdit
+from pyautogui import size
 
 # App
 app = QApplication([])
@@ -18,7 +19,7 @@ text_list = QTextEdit()
 note_list = QListWidget()
 
 # Botones
-PushBoxGroup1 = QLabel("Lista de notas")
+note_list_label = QLabel("Lista de notas")
 createButton = QPushButton("Crear nota")
 deletButton = QPushButton("eliminar nota")
 saveButton = QPushButton("guardar nota")
@@ -33,43 +34,46 @@ user = QLineEdit()
 user.setPlaceholderText("Nombre de usuario")
 
 # Botones
-PushBoxGroup2 = QLabel("Lista de etiquetas")
+label_list_text = QLabel("Lista de etiquetas")
 addButton = QPushButton("Añadir nota")
 removeButton = QPushButton("Remover etiqueta de nota")
 searchButton = QPushButton("Buscar notas por etiqueta")
 
 
 # Layouts
-# Columnas
-columV1 = QVBoxLayout()
-columV2 = QVBoxLayout()
-columH1 = QHBoxLayout()
-columH2 = QHBoxLayout()
-columH3 = QHBoxLayout()
-columH4 = QHBoxLayout()
-columH5 = QHBoxLayout()
+fila1 = QHBoxLayout()
+mainwin.setLayout(fila1)
 
+colum1 = QVBoxLayout()
+colum1.addWidget(text_list)
+fila1.addLayout(colum1)
 
+colum2 = QVBoxLayout()
+# Notas
+colum2.addWidget(note_list_label)
+colum2.addWidget(note_list)
 
-'''                                                                   En proceso   
-                                                                      Solo falta organizarlo todo
+# Botones de notas
+botones_note = QHBoxLayout()
+botones_note.addWidget(createButton)
+botones_note.addWidget(deletButton)
+colum2.addLayout(botones_note)
+colum2.addWidget(saveButton)
 
+# Etiqueta
+colum2.addWidget(label_list_text)
+colum2.addWidget(label_list)
+fila1.addLayout(colum2)
 
-# Unir layouts y botones
-columV1.addWidget(note_list)
-columV1.addWidget(createButton)
-columV1.addWidget(deletButton)
-columV1.addWidget(saveButton)
+# Botones de etiquetas
+botones_label = QHBoxLayout()
+botones_label.addWidget(addButton)
+botones_label.addWidget(removeButton)
+colum2.addLayout(botones_label)
+colum2.addWidget(searchButton)
 
-columH1.addLayout(columV1)
-columH1.addLayout(columV1)
-
-# Meter los botones en la caja
-PushBoxGroup1.setLayout(columH1)
-PushBoxGroup2.setLayout(columH1)
-
-mainwin.setLayout(columH1)
-'''
+fila2 = QHBoxLayout()
+colum2.addLayout(fila1)
 
 #######################################
 

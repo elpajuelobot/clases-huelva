@@ -1,24 +1,70 @@
-# imports
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import (QApplication, QWidget, QPushButton,
-                            QLabel, QListWidget, QLineEdit, 
-                            QTextEdit, QHBoxLayout, QVBoxLayout,)
+from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QLabel, QVBoxLayout, QHBoxLayout, QTextEdit, QListWidget, QLineEdit
 
-# app
+# App
 app = QApplication([])
+# Ventana principal:
+mainwin = QWidget()
+mainwin.setWindowTitle('Notas inteligentes')
+mainwin.resize(965, 476)
 
-'''Interfaz de la aplicación'''
-# parámetros de la ventana de la aplicación
-notes_win = QWidget()
-notes_win.setWindowTitle('Notas inteligentes')
-notes_win.resize(900, 600)
+#######################################
 
-# widgets de la ventana de la aplicación
+# QtextEdit
+text_list = QTextEdit()
 
-# una ventana aparece con el campo “Ingresar nombre de nota”
+# Notas
+# Lista de las notas
+note_list = QListWidget()
 
-# organizando los widgets por diseño
+# Botones
+note_list_label = QLabel("Lista de notas")
+createButton = QPushButton("Crear nota")
+deletButton = QPushButton("Eliminar nota")
+saveButton = QPushButton("Guardar nota")
 
-# ejecutar la aplicación
-notes_win.show()
+# Etiquetas
+# Lista de etiquetas
+label_list = QListWidget() 
+
+# Entrada de texto
+user = QLineEdit()
+user.setPlaceholderText("Nombre de usuario")
+
+# Botones
+label_list_text = QLabel("Lista de etiquetas")
+addButton = QPushButton("Añadir nota")
+removeButton = QPushButton("Remover etiqueta de nota")
+searchButton = QPushButton("Buscar notas por etiqueta")
+
+# Layouts
+fila1 = QHBoxLayout()
+mainwin.setLayout(fila1)
+
+colum1 = QVBoxLayout()
+colum1.addWidget(text_list)
+fila1.addLayout(colum1)
+
+colum2 = QVBoxLayout()
+
+# Notas
+colum2.addWidget(note_list_label)
+colum2.addWidget(note_list)
+
+# Añadimos los botones en un QHBoxLayout
+botonesNotasLayout = QHBoxLayout()
+botonesNotasLayout.addWidget(createButton)
+botonesNotasLayout.addWidget(deletButton)
+colum2.addLayout(botonesNotasLayout)  # Agregamos el layout horizontal a la columna
+
+# Etiquetas
+colum2.addWidget(label_list_text)
+colum2.addWidget(label_list)
+fila1.addLayout(colum2)
+
+#######################################
+
+# Mostramos ventana principal
+mainwin.show()
+# Mantiene app encendida
 app.exec_()
