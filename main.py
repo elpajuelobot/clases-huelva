@@ -1,38 +1,9 @@
-"""from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QLabel, QVBoxLayout, QFileDialog
-
-#app
-app = QApplication([])
-# ventana principal:
-mainwin = QWidget()
-mainwin.resize(965, 476)
-
-#######################################
-
-# Botones
-carpeta = QPushButton("carpeta")
-left = QPushButton("izquierda")
-right = QPushButton("derecha")
-reflejo = QPushButton("reflejo")
-nitidez = QPushButton("nitidez")
-ByN = QPushButton("B/N")
-
-
-
-
-#######################################
-
-#mostramos ventana principal
-mainwin.show()
-#mantiene app encendida
-app.exec_()"""
-
 import os
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import (QApplication, QWidget, QListWidget,
                             QLabel, QHBoxLayout, QPushButton,
                             QVBoxLayout, QFileDialog)
-
+#from PIL import image
 
 """APLICACION"""
 app = QApplication([])
@@ -68,13 +39,30 @@ reflejo = QPushButton("reflejo")
 nitidez = QPushButton("nitidez")
 ByN = QPushButton("B/N")
 
+workdir = ""
 
 # Abrir el directorio
-def open_directory():
+def choose_workdir():
+    global workdir
     workdir = QFileDialog.getExistingDirectory()
-    filenames = os.listdir(workdir)
 
-carpeta.clicked.connect(open_directory)
+
+def filter(files, extensions):
+    fileList = []
+
+    for file in extensions:
+        fileList.append(file)
+
+def show_filename_list():
+    extensions = [".png", ".jpg", ".icon", ".gift"]
+
+    choose_workdir()
+
+    filenames = os.listdir(workdir)
+    filter(filenames, extensions)
+    print(filenames)
+
+carpeta.clicked.connect(show_filename_list)
 
 
 ####################################
@@ -103,3 +91,4 @@ colunna2.addLayout(fila1)
 ventana_principal.show()
 # ciclo de ejecucion
 app.exec()
+
