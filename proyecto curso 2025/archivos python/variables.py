@@ -29,6 +29,7 @@ y_enemy = 634
 health_enemy = 120
 speed_enemy = random.randint(1, 3)
 ANIMATION_SPEED = 6
+num_enemies = 1
 
 # Barra de vida
 # Heroe
@@ -43,8 +44,9 @@ fuente = pygame.font.Font(None, 30)
 text_color = (255, 255, 255)
 
 # Mantener ventanas abiertas
-game = True
+game = False
 menu_principal = True
+menu_opciones = True
 
 # Configuración de fps
 clock = pygame.time.Clock()
@@ -52,8 +54,11 @@ FPS = 60
 
 # Ajustes de menú de inicio
 font_menu = pygame.font.Font(None, 36)
+backtext_x = 127
+backtext_y = -135
+
+# Ajustes menú opciones
+
 
 # Botones
-width_button = 200
-height_button = 100
-color = 0, 255, 0
+color = 0, 190, 0
