@@ -10,8 +10,8 @@ def menu_opciones():
 
     # Botones
     bttnBack = Buttons(0, 0, 100, 50)
-    bttnMoreSpeed = Buttons(430, 560, 200, 100)
-    bttnLessSpeed = Buttons(130, 560, 200, 100)
+    bttnMoreSpeed = Buttons(100, 300, 100, 50)
+    bttnLessSpeed = Buttons(300, 300, 100, 50)
 
     # Ciclo de la ventana
     while variables.menu_opciones:
@@ -39,10 +39,15 @@ def menu_opciones():
 
             if bttnMoreSpeed.click(e):
                 variables.speed_player = min(variables.speed_player + 1, 16)
-                print(variables.speed_player)
 
             if bttnLessSpeed.click(e):
                 variables.speed_player = max(variables.speed_player - 1, 1)
-                print(variables.speed_player)
+
+        # Texto para velocidad
+        speedText = variables.fontMenuOpciones.render("Velocidad", True, variables.text_color)
+        wn_menu_option.blit(speedText, (190, 260))
+
+        speedText_num = variables.fontMenuOpciones.render(f"{variables.speed_player}", True, variables.text_color)
+        wn_menu_option.blit(speedText_num, (246, 320))
 
         display.update()

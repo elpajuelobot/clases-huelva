@@ -1,27 +1,6 @@
 from pygame import *
 import variables
-
-# Cargar imágenes de animación del jugador
-walk_right_path = [transform.scale(image.load(f'assets/img/players/hero/RunR_{i}.png'), (variables.widht_player, variables.height_player)) for i in range(0, 9)]
-walk_left_path = [transform.scale(image.load(f'assets/img/players/hero/RunL_{i}.png'), (variables.widht_player, variables.height_player)) for i in range(0, 9)]
-stand_right = [transform.scale(image.load(f'assets/img/players/hero/_idle_{i}.png'), (variables.widht_player, variables.height_player)) for i in range(0, 9)]
-stand_left = [transform.scale(image.load(f'assets/img/players/hero/_idleL_{i}.png'), (variables.widht_player, variables.height_player)) for i in range(0, 9)]
-jump_right_path = [transform.scale(image.load(f'assets/img/players/hero/_Jump_{i}.png'), (variables.widht_player, variables.height_player)) for i in range(0, 2)]
-jump_left_path = [transform.scale(image.load(f'assets/img/players/hero/_JumpL_{i}.png'), (variables.widht_player, variables.height_player)) for i in range(0, 2)]
-attack_right_path = [transform.scale(image.load(f'assets/img/players/hero/_Attack_{i}.png'), (variables.widht_player, variables.height_player)) for i in range(0, 9)]
-attack_left_path = [transform.scale(image.load(f'assets/img/players/hero/_AttackL_{i}.png'), (variables.widht_player, variables.height_player)) for i in range(0, 9)]
-dead_path = [transform.scale(image.load(f'assets/img/players/hero/_Death_{i}.png'), (65, 35)) for i in range(0, 9)]
-dead_left_path = [transform.scale(image.load(f'assets/img/players/hero/_DeathL_{i}.png'), (65, 35)) for i in range(0, 9)]
-
-# Cargar imágenes del villano
-stand_right_villain = [transform.scale(image.load(f'assets/img/players/villian/NightBorne_Idle_{i}.png'), (variables.width_enemy, variables.height_enemy)) for i in range(0, 8)]
-dead_right_villain = [transform.scale(image.load(f'assets/img/players/villian/NightBorne_Death_{i}.png'), (variables.width_enemy, variables.height_enemy)) for i in range(0, 22)]
-run_right_villain = [transform.scale(image.load(f'assets/img/players/villian/NightBorne_Run_{i}.png'), (variables.width_enemy, variables.height_enemy)) for i in range(0, 5)]
-run_left_villain = [transform.scale(image.load(f'assets/img/players/villian/NightBorne_RunL_{i}.png'), (variables.width_enemy, variables.height_enemy)) for i in range(0, 5)]
-attack_right_villain = [transform.scale(image.load(f'assets/img/players/villian/NightBorne_Attack_{i}.png') ,(variables.width_enemy, variables.height_enemy)) for i in range(0, 11)]
-
-
-
+from animaciones import *
 
 class Player:
     def __init__(self):
@@ -45,9 +24,9 @@ class Player:
         self.num_hurt = 4
         self.attack_damage = False
 
-    def move_player(self, keys_pressed):
+    def move_player(self, keys_pressed, mouse_pressed):
         """Mueve el jugador según las teclas presionadas"""
-        if not self.is_death:
+        if not self.is_death and variables.show_inventory == False:
             if keys_pressed[K_d] and self.x < 990:
                 self.x += variables.speed_player
                 self.moving_right = True
@@ -86,7 +65,7 @@ class Player:
                     self.is_jumping = False
                     self.jump_count = 9
 
-            if keys_pressed[K_1] and not self.is_attack:
+            if mouse_pressed and not self.is_attack:
                 self.is_attack = True
                 self.attack_damage = False
 
@@ -94,6 +73,8 @@ class Player:
         # Hitbox del jugador
         self.hitbox_player = Rect(self.x, self.y, variables.widht_player, variables.height_player)
         draw.rect(wn, (255, 0, 0), self.hitbox_player, 2)
+
+        self.check_dead()
 
         # Animación de salto
         if self.is_jumping:
@@ -182,98 +163,11 @@ class Player:
     def check_collision_enemy(self, enemy):
         if self.hitbox_player.colliderect(enemy.hitbox_enemy):
             enemy.health -= self.num_hurt
+            enemy.health = max(enemy.health, 0)
 
-'''
-class Villian:
-    def __init__(self):
-        self.x = variables.x_enemy
-        self.y = variables.y_enemy
-        self.hitbox_enemy = Rect(self.x, self.y, variables.widht_enemy, variables.height_enemy)
-        self.standing = stand_right_villian  # Imagen de pie por defecto
-        self.walk_count = 0
-        self.moving_right = False
-        self.moving_left = False
-        self.is_attack = False
-        self.attack_count = 0
-        self.healt = variables.healt_enemy
-        self.dead_count = 0
-        self.visible = True
-        self.delta_x = 1
-        self.is_stand = False
-
-    def move_enemy(self, player):
-        if self.healt > 0:
-            if self.visible:
-                if player.x > self.x:
-                    self.moving_right = True
-                    self.moving_left = False
-                    self.is_attack = False
-                    self.x += variables.speed_enemy
-
-                elif player.x < self.x:
-                    self.moving_right = False
-                    self.moving_left = True
-                    self.is_attack = False
-                    self.x -= variables.speed_enemy
-
-                else:
-                    self.is_attack = True
-
-                    if player.healt == 0:
-                        self.is_attack = False
-                        self.moving_left = False
-                        self.moving_right = False
-                        self.is_stand = True
-        else:
-            self.moving_left = False
-            self.moving_right = False
-            self.is_attack = False
-
-    def draw(self, wn):
-        if self.visible:
-            # Hitbox del enemigo
-            self.hitbox_enemy = Rect(self.x, self.y, variables.widht_enemy, variables.height_enemy)
-            #draw.rect(wn, (255, 0, 0), self.hitbox_enemy, 2)
-
-            if self.healt == 0:
-                # Animación de muerte
-                wn.blit(dead_right_villian[self.dead_count // 6 % len(dead_right_villian)], (self.x, self.y))
-                self.dead_count += 1
-
-                if self.dead_count >= len(dead_right_villian) * 6:
-                    self.visible = False
-            if self.is_attack:
-                # Animación de ataque
-                wn.blit(attack_right_villian[self.attack_count // 6 % len(attack_right_villian)], (self.x, self.y))
-                self.attack_count += 1
-
-            else:
-                if self.moving_left == True or self.moving_right == True:
-                    if self.moving_right:
-                        wn.blit(run_right_villian[self.walk_count // 6 % len(run_right_villian)], (self.x, self.y))
-
-                    elif self.moving_left:
-                        wn.blit(run_left_villian[self.walk_count // 6 % len(run_left_villian)], (self.x, self.y))
-
-                    elif self.is_stand:
-                        # Posición parada
-                        wn.blit(stand_right_villian[self.walk_count // 6 % len(self.standing)], (self.x, self.y))
-
-                    self.walk_count += 1
-
-    def barra_healt(self, wn):
-        if self.visible:
-            calculo_barra = int((self.healt / 120) * variables.widht_healt_enemy)
-            rectangulo = Rect(self.x + 15, self.y - 5, calculo_barra, variables.height_healt_enemy)
-            draw.rect(wn, (255, 0, 255), rectangulo)
-            text_healt = variables.fuente.render(f"Vida: {self.healt}", True, variables.text_color)
-            wn.blit(text_healt, (self.x - 8, self.y - 25))
-            if self.healt <= 0:
-                self.healt = 0
-'''
 
 class Villain:
-    def __init__(self):
+    def __init__(self, speed):
         self.x = variables.x_enemy
         self.y = variables.y_enemy
         self.hitbox_enemy = Rect(self.x, self.y, variables.width_enemy, variables.height_enemy)
@@ -285,31 +179,31 @@ class Villain:
         self.attack_count = 0
         self.health = variables.health_enemy
         self.dead_count = 0
+        self.is_dead = False
         self.visible = True
         self.is_stand = False
         self.num_hurt = 4
-        self.attack_damage = False
+        self.speed = speed
 
     def move_towards_player(self, player):
-        if player.health > 0 and self.health > 0:
+        if player.health > 0 and self.health > 0 and variables.show_inventory == False:
             if player.x > self.x:
                 self.moving_right = True
                 self.moving_left = False
                 self.is_attack = False
-                self.x += variables.speed_enemy
+                self.x += min(self.speed, player.x - self.x)
             elif player.x < self.x:
                 self.moving_right = False
                 self.moving_left = True
                 self.is_attack = False
-                self.x -= variables.speed_enemy
+                self.x -= min(self.speed, self.x - player.x)
             else:
                 self.is_attack = True
-                self.attack_damage = True
         else:
             self.moving_left = False
             self.moving_right = False
             self.is_attack = False
-            self.is_stand = True
+            self.is_stand = not self.is_attack
 
     def draw(self, wn, player):
         if not self.visible:
@@ -318,7 +212,7 @@ class Villain:
         self.hitbox_enemy = Rect(self.x, self.y, variables.width_enemy, variables.height_enemy)
         draw.rect(wn, (255, 0, 0), self.hitbox_enemy, 2)
 
-        if self.health == 0:
+        if self.is_dead:
             wn.blit(dead_right_villain[self.dead_count // variables.ANIMATION_SPEED % len(dead_right_villain)], (self.x, self.y))
             self.dead_count += 1
             if self.dead_count >= len(dead_right_villain) * variables.ANIMATION_SPEED:
@@ -331,9 +225,7 @@ class Villain:
 
             if self.attack_count >= len(attack_right_villain) * 6:
                 self.attack_count = 0
-                if not self.attack_damage:
-                        self.attack_damage = True
-                        self.check_collision_hero(player)
+                self.check_collision_hero(player)
 
         elif self.moving_right:
             wn.blit(run_right_villain[self.walk_count // variables.ANIMATION_SPEED % len(run_right_villain)], (self.x, self.y))
@@ -354,6 +246,9 @@ class Villain:
             draw.rect(wn, (255, 0, 255), health_bar)
             health_text = variables.fuente.render(f"Vida: {self.health}", True, variables.text_color)
             wn.blit(health_text, (self.x - 8, self.y - 25))
+            if self.health <= 0:
+                self.health = 0
+                self.is_dead = True
 
     def check_collision_hero(self, player):
         if self.hitbox_enemy.colliderect(player.hitbox_player):
