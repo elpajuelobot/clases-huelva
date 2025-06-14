@@ -1,25 +1,25 @@
 from pygame import *
 from buttons import RectButton, CircleButton
-import variables
+from variables import config
 
 def menu_opciones():
     # Configuración de ventana
-    wn_menu_option = display.set_mode((variables.WIDHT, variables.HEIGHT))
+    wn_menu_option = display.set_mode((config.WIDHT, config.HEIGHT))
     display.set_caption("El caballero")
     background_image = transform.scale(image.load("assets/img/background/area juego/background.png").convert(), (1024, 768))
 
     # Botones
-    bttnBack = RectButton(0, 0, 100, 50, variables.colorButton)
-    bttnMoreSpeed = RectButton(100, 300, 100, 50, variables.colorButton)
-    bttnLessSpeed = RectButton(300, 300, 100, 50, variables.colorButton)
+    bttnBack = RectButton(0, 0, 100, 50, config.colorButton)
+    bttnMoreSpeed = RectButton(100, 300, 100, 50, config.colorButton)
+    bttnLessSpeed = RectButton(300, 300, 100, 50, config.colorButton)
 
     # Ciclo de la ventana
-    while variables.menu_opciones:
+    while config.menu_opciones:
         # FPS
-        variables.clock.tick(variables.FPS)
+        config.clock.tick(config.FPS)
 
         # Imagen de fondo
-        wn_menu_option.blit(background_image, (variables.bg_x, variables.bg_y))
+        wn_menu_option.blit(background_image, (config.bg_x, config.bg_y))
 
         # Botones
         bttnBack.draw_button(wn_menu_option, "<--")
@@ -29,25 +29,25 @@ def menu_opciones():
         # Cerrar al presionar la X
         for e in event.get():
             if e.type == QUIT:
-                variables.menu_opciones = False
-                variables.menu_principal = False
-                variables.game = False
+                config.menu_opciones = False
+                config.menu_principal = False
+                config.game = False
 
             if bttnBack.click(e):
-                variables.menu_opciones = False
-                variables.menu_principal = True
+                config.menu_opciones = False
+                config.menu_principal = True
 
             if bttnMoreSpeed.click(e):
-                variables.speed_player = min(variables.speed_player + 1, 16)
+                config.speed_player = min(config.speed_player + 1, 16)
 
             if bttnLessSpeed.click(e):
-                variables.speed_player = max(variables.speed_player - 1, 1)
+                config.speed_player = max(config.speed_player - 1, 1)
 
         # Texto para velocidad
-        speedText = variables.fontMenuOpciones.render("Velocidad", True, variables.text_color)
+        speedText = config.fontMenuOpciones.render("Velocidad", True, config.text_color)
         wn_menu_option.blit(speedText, (190, 260))
 
-        speedText_num = variables.fontMenuOpciones.render(f"{variables.speed_player}", True, variables.text_color)
+        speedText_num = config.fontMenuOpciones.render(f"{config.speed_player}", True, config.text_color)
         wn_menu_option.blit(speedText_num, (246, 320))
 
         display.update()

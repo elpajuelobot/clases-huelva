@@ -1,5 +1,6 @@
 from pygame import *
-import variables
+from variables import config
+
 
 class Shape:
     def __init__(self, x, y, color):
@@ -20,7 +21,7 @@ class RectButton(Shape):
 
     def draw_button(self, wn, text):
         draw.rect(wn, self.color, self.form_button)
-        text_surface = variables.font_menu.render(text, True, variables.text_color)
+        text_surface = config.font_menu.render(text, True, config.text_color)
         text_rect = text_surface.get_rect(center=self.form_button.center)
         wn.blit(text_surface, text_rect)
 
@@ -38,7 +39,7 @@ class CircleButton(Shape):
 
     def draw(self, wn, text):
         draw.circle(wn, self.color, self.center_button, self.radio)
-        text_surface = variables.font_menu.render(text, True, variables.text_color)
+        text_surface = config.font_menu.render(text, True, config.text_color)
         text_rect = text_surface.get_rect(center=self.center_button)
         wn.blit(text_surface, text_rect)
 
